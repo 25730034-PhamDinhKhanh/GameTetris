@@ -84,30 +84,41 @@ bool canMove(int dx, int dy){
             }
     return true;
 }
+
+//Ve khoi 
 void block2Board(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
             if (blocks[b][i][j] != ' ')
                 board[y+i][x+j] = blocks[b][i][j];
 }
+
+
 void boardDelBlock(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
             if (blocks[b][i][j] != ' ')
                 board[y+i][x+j] = ' ';
 }
+
+
+//Khoi tao bang tro choi
 void initBoard(){
     for (int i = 0 ; i < H ; i++)
         for (int j = 0 ; j < W ; j++)
             if (i == 0 || i == H-1 || j ==0 || j == W-1) board[i][j] = '#';
             else board[i][j] = ' ';
 }
+
+
 void draw(){
     system("cls");
 
     for (int i = 0 ; i < H ; i++, cout<<endl)
         for (int j = 0 ; j < W ; j++) cout<<board[i][j];
 }
+
+
 void removeLine(){
     int i,j;
     for (i = H-2 ; i > 0 ; i-- ){
