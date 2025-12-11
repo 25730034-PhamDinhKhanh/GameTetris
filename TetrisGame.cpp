@@ -129,8 +129,11 @@ int main()
     srand(time(0));
     x = 5; y = 0; b = rand()%7;
     initBoard();
+
     while (1){
         boardDelBlock();
+
+        // Xử lý bàn phím
         if (kbhit()){
             char c = getch();
             if (c == 'a' && canMove(-1,0)) x--;
@@ -138,6 +141,8 @@ int main()
             if (c == 'x' && canMove( 0,1)) y++;
             if (c == 'q') break;
         }
+
+         // Khối tự rơi xuống
         if (canMove(0,1)) y++;
         else{
             block2Board();
@@ -146,7 +151,7 @@ int main()
         }
         block2Board();
         draw();
-        _sleep(500);
+        _sleep(400);
     }
     return 0;
 }
