@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <windows.h>
 
 using namespace std;
 #define H 20
@@ -151,7 +152,7 @@ int main()
         }
         block2Board();
         draw();
-        _sleep(400);
+        Sleep(400);
     }
     return 0;
 }
