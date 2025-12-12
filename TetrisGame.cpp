@@ -120,7 +120,7 @@ void removeLine(){
                     board[ii][jj] = board[ii-1][jj];
             i++;
             draw();
-            _sleep(200);
+            Sleep(200);
         }
     }
 }
