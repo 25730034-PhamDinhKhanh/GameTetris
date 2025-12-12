@@ -153,23 +153,17 @@ void removeLine(){
         }
 
         if (full) {
-            // Dịch tất cả dòng từ i trở lên xuống 1 dòng
             for (int ii = i; ii > 0; ii--) {
                 for (int jj = 0; jj < W; jj++) {
                     board[ii][jj] = board[ii - 1][jj];
                 }
             }
 
-            // Dòng trên cùng reset
             for (int jj = 0; jj < W; jj++)
                 board[0][jj] = ' ';
 
-            // Hiệu ứng rơi xuống
             draw();
             Sleep(100);
-
-            // Rất quan trọng!
-            // Vì dòng vừa kéo xuống mới cũng có thể full
             i++;  
         }
     }
