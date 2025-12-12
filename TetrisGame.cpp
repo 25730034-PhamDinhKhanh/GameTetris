@@ -85,42 +85,86 @@ bool canMove(int dx, int dy){
             }
     return true;
 }
+
+//Ve khoi 
 void block2Board(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
             if (blocks[b][i][j] != ' ')
                 board[y+i][x+j] = blocks[b][i][j];
 }
+
+
 void boardDelBlock(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
             if (blocks[b][i][j] != ' ')
                 board[y+i][x+j] = ' ';
 }
+
+
+//Khoi tao bang tro choi
 void initBoard(){
     for (int i = 0 ; i < H ; i++)
         for (int j = 0 ; j < W ; j++)
             if (i == 0 || i == H-1 || j ==0 || j == W-1) board[i][j] = '#';
             else board[i][j] = ' ';
 }
-void draw(){
-    system("cls");
 
-    for (int i = 0 ; i < H ; i++, cout<<endl)
-        for (int j = 0 ; j < W ; j++) cout<<board[i][j];
+// Hàm vẽ màn hình
+void draw(){
+    system("cls");  
+
+    // Vẽ khung trên
+    cout << "+";
+    for (int i = 0; i < W; i++) cout << "-";
+    cout << "+\n";
+
+    // Vẽ nội dung board
+    for (int i = 0; i < H; i++) {
+        cout << "|";  // Khung trái
+
+        for (int j = 0; j < W; j++) {
+            if (board[i][j] == ' ')
+                cout << " ";   // Ô trống
+            else
+                cout << board[i][j]; // Ô có block
+        }
+
+        cout << "|\n"; // Khung phải
+    }
+
+    // Vẽ khung dưới
+    cout << "+";
+    for (int i = 0; i < W; i++) cout << "-";
+    cout << "+\n";
 }
+
+
 void removeLine(){
-    int i,j;
-    for (i = H-2 ; i > 0 ; i-- ){
-        for (j = 0 ; j < W ; j++)
-            if (board[i][j] == ' ') break;
-        if (j == W){
-            for (int ii = i ; ii > 0 ; ii--)
-                for (int jj = 0; jj < W; jj++)
-                    board[ii][jj] = board[ii-1][jj];
-            i++;
+     for (int i = H - 2; i >= 0; i--) {
+
+        bool full = true;
+        for (int j = 0; j < W; j++) {
+            if (board[i][j] == ' ') {
+                full = false;
+                break;
+            }
+        }
+
+        if (full) {
+            for (int ii = i; ii > 0; ii--) {
+                for (int jj = 0; jj < W; jj++) {
+                    board[ii][jj] = board[ii - 1][jj];
+                }
+            }
+
+            for (int jj = 0; jj < W; jj++)
+                board[0][jj] = ' ';
+
             draw();
-            Sleep(200);
+            Sleep(100);
+            i++;  
         }
     }
 }
