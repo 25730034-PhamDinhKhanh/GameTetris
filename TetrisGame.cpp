@@ -74,16 +74,17 @@ char blocks[][4][4] ={
          {'L','L','L',' '},
          {' ',' ',' ',' '}}
 };
+//Kiem tra neu khoi co the di chuyen
 bool canMove(int dx, int dy){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
-            if (blocks[b][i][j] != ' ') {
-                int xt = x + j + dx;
-                int yt = y + i + dy;
-                if (xt < 1 || xt >= W-1 || yt >= H-1 ) return false;
-                if (board[yt][xt] != ' ') return false;
+            if (blocks[b][i][j] != ' ') {   //xet cac o khong trong
+                int xt = x + j + dx;        //tinh toa do moi cua board
+                int yt = y + i + dy;        //tinh toa do moi cua board
+                if (xt < 1 || xt >= W-1 || yt >= H-1 ) return false;    //khong the di chuuyen
+                if (board[yt][xt] != ' ') return false;                 //khong the di chuuyen
             }
-    return true;
+    return true;    //co the di chuyen
 }
 
 //Ve khoi 
