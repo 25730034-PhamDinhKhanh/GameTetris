@@ -3,8 +3,8 @@
 #include <windows.h>
 
 using namespace std;
-#define H 20
-#define W 15
+#define H 15
+#define W 20
 char board[H][W] = {};
 
 int x, y, b;
@@ -112,33 +112,26 @@ void initBoard(){
             else board[i][j] = ' ';
 }
 
-// Hàm vẽ màn hình
+
 void draw(){
-    system("cls");  
+    system("cls");
 
-    // Vẽ khung trên
-    cout << "+";
-    for (int i = 0; i < W; i++) cout << "-";
-    cout << "+\n";
-
-    // Vẽ nội dung board
-    for (int i = 0; i < H; i++) {
-        cout << "|";  // Khung trái
-
-        for (int j = 0; j < W; j++) {
-            if (board[i][j] == ' ')
-                cout << " ";   // Ô trống
-            else
-                cout << board[i][j]; // Ô có block
+    for (int i = 0 ; i < H ; i++) {
+        for (int j = 0 ; j < W ; j++) {
+            char cell = board[i][j];
+            
+            if (cell == ' ') {
+                cout << "  ";
+            } 
+            else if (cell == '#') {
+                cout << "##";
+            }
+            else {
+                cout << cell << cell;
+            }
         }
-
-        cout << "|\n"; // Khung phải
+        cout << endl;
     }
-
-    // Vẽ khung dưới
-    cout << "+";
-    for (int i = 0; i < W; i++) cout << "-";
-    cout << "+\n";
 }
 
 
