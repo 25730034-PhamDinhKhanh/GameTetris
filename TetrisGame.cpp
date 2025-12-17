@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <ctime>
 
 using namespace std;
 #define H 20
@@ -85,6 +86,30 @@ bool canMove(int dx, int dy){
                 if (board[yt][xt] != ' ') return false;                 //khong the di chuuyen
             }
     return true;    //co the di chuyen
+}
+//Kiem tra neu co the xoay
+bool canRotate(char tmp[4][4]) {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (tmp[i][j] != ' ') {
+                int xt = x + j;
+                int yt = y + i;
+                if (xt < 1 || xt >= W - 1 || yt < 0 || yt >= H - 1) return false;
+                if (board[yt][xt] != ' ') return false;
+            }
+    return true;
+}
+
+void rotateBlock() {
+    char tmp[4][4];
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            tmp[i][j] = blocks[b][3 - j][i];
+
+    if (canRotate(tmp))
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                blocks[b][i][j] = tmp[i][j];
 }
 
 //Ve khoi 
@@ -185,6 +210,7 @@ int main()
             if (c == 'a' && canMove(-1,0)) x--;
             if (c == 'd' && canMove( 1,0)) x++;
             if (c == 'x' && canMove( 0,1)) y++;
+            if (c == 'w') rotateBlock();
             if (c == 'q') break;
         }
 
