@@ -5,6 +5,10 @@
 using namespace std;
 #define H 15
 #define W 20
+
+int speed = 400; //tốc độ ban đầu 
+int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
+
 char board[H][W] = {};
 
 int x, y, b;
@@ -135,11 +139,13 @@ void VeManHinh(){
 }
 
 
-void removeLine(){
-     for (int i = H - 2; i >= 0; i--) {
+int removeLine(){
+    int removed = 0;
+
+    for (int i = H - 2; i > 0; i--) {
 
         bool full = true;
-        for (int j = 0; j < W; j++) {
+        for (int j = 1; j < W - 1; j++) {   // ❗ bỏ tường
             if (board[i][j] == ' ') {
                 full = false;
                 break;
@@ -147,20 +153,23 @@ void removeLine(){
         }
 
         if (full) {
+            removed++;
+
             for (int ii = i; ii > 0; ii--) {
-                for (int jj = 0; jj < W; jj++) {
+                for (int jj = 1; jj < W - 1; jj++) {
                     board[ii][jj] = board[ii - 1][jj];
                 }
             }
 
-            for (int jj = 0; jj < W; jj++)
+            for (int jj = 1; jj < W - 1; jj++)
                 board[0][jj] = ' ';
 
             VeManHinh();
-            Sleep(100);
-            i++;  
+            Sleep(80);
+            i++;  // kiểm tra lại dòng này
         }
     }
+    return removed;
 }
 
 int main()
@@ -185,12 +194,20 @@ int main()
         if (canMove(0,1)) y++;
         else{
             block2Board();
-            removeLine();
-            x = 5; y = 0; b = rand()%7;
+            int lines = removeLine();
+            if (lines > 0) {
+                speed -= lines * 30;     // mỗi line nhanh hơn 30ms
+                if (speed < minSpeed)
+                    speed = minSpeed;
+        }
+
+        x = 5; 
+        y = 0; 
+        b = rand() % 7;
         }
         block2Board();
         VeManHinh();
-        Sleep(400);
+        Sleep(speed);
     }
     return 0;
 }
