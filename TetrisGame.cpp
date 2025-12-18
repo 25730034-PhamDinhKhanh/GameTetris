@@ -113,7 +113,7 @@ void initBoard(){
 }
 
 
-void draw(){
+void VeManHinh(){
     system("cls");
 
     for (int i = 0 ; i < H ; i++) {
@@ -156,7 +156,7 @@ void removeLine(){
             for (int jj = 0; jj < W; jj++)
                 board[0][jj] = ' ';
 
-            draw();
+            VeManHinh();
             Sleep(100);
             i++;  
         }
@@ -189,7 +189,7 @@ int main()
             x = 5; y = 0; b = rand()%7;
         }
         block2Board();
-        draw();
+        VeManHinh();
         Sleep(400);
     }
     return 0;
