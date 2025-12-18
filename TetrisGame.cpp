@@ -169,6 +169,8 @@ int removeLine(){
     return removed;
 }
 
+bool isGameOver = false;
+
 int main()
 {
     srand(time(0));
@@ -191,6 +193,10 @@ int main()
          // Khối tự rơi xuống
         if (canMove(0,1)) y++;
         else{
+            if (y <= 1) {
+                isGameOver = true;
+                break;
+            }
             block2Board();
             int lines = removeLine();
             if (lines > 0) {
@@ -206,6 +212,12 @@ int main()
         block2Board();
         VeManHinh();
         Sleep(speed);
+    }
+        if (isGameOver) {
+        system("cls");
+        cout << "\n\n    GAME OVER\n";
+        cout << "Nhan phim bat ky de thoat";
+        getch();
     }
     return 0;
 }
