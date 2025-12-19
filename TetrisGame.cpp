@@ -116,23 +116,29 @@ void initBoard(){
 
 void VeManHinh(){
     system("cls");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     for (int i = 0 ; i < H ; i++) {
         for (int j = 0 ; j < W ; j++) {
             char cell = board[i][j];
             
             if (cell == ' ') {
-                cout << "  ";
+                SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
+                cout << " ";
             } 
             else if (cell == '#') {
-                cout << "##";
+                SetConsoleTextAttribute(hConsole, 7); // To xam cho vien
+                cout << "#";
             }
             else {
-                cout << cell << cell;
+                // To mau trang cho block
+                SetConsoleTextAttribute(hConsole, 15);
+                cout << char(219); // Full block character (█)
             }
         }
         cout << endl;
     }
+    SetConsoleTextAttribute(hConsole, 7); // Reset ve mau default
 }
 
 
