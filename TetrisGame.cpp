@@ -13,6 +13,7 @@ int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
 char board[H][W] = {};
 
 int x, y, b;
+int uiColors[3] = {6, 4, 9 } ; //6: vang, 4: đỏ , 9: xanh da trời
 char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
 char blocks[][4][4] ={
         // I-piece (vertical)
@@ -118,6 +119,8 @@ void VeManHinh(){
     system("cls");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+    int blockColor = uiColors[b % 3]; 
+
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++) {
             char cell = board[i][j];
@@ -132,7 +135,7 @@ void VeManHinh(){
             }
             else {
                 // To mau trang cho block
-                SetConsoleTextAttribute(hConsole, 15);
+                SetConsoleTextAttribute(hConsole, blockColor);
                 cout << char(219); // Full block character (█)
             }
         }
