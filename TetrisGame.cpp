@@ -4,7 +4,7 @@
 #include <ctime>
 
 using namespace std;
-#define H 15
+#define H 20
 #define W 20
 
 int speed = 400; //tốc độ ban đầu 
