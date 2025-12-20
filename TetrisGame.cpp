@@ -1,14 +1,19 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <ctime>
 
 using namespace std;
 #define H 15
 #define W 20
+
+int speed = 400; //tốc độ ban đầu 
+int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
+
 char board[H][W] = {};
 
 int x, y, b;
-char currentBlock[4][4];  
+char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
 char blocks[][4][4] ={
         // I-piece (vertical)
         {{' ','B',' ',' '},
@@ -58,6 +63,30 @@ bool canMove(int dx, int dy){
             }
     return true;    //co the di chuyen
 }
+//Kiem tra khoi co the di chuyen
+bool canRotate(char tmp[4][4]) {
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (tmp[i][j] != ' ') {
+                int xt = x + j;
+                int yt = y + i;
+                if (xt < 1 || xt >= W - 1 || yt < 0 || yt >= H - 1) return false;
+                if (board[yt][xt] != ' ') return false;
+            }
+    return true;
+}
+
+void rotateBlock() {
+    char tmp[4][4];
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            tmp[i][j] = blocks[b][3 - j][i];
+
+    if (canRotate(tmp))
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                blocks[b][i][j] = tmp[i][j];
+}
 
 //Ve khoi 
 void block2Board(){
@@ -85,7 +114,7 @@ void initBoard(){
 }
 
 
-void draw() {
+void VeManHinh(){
     system("cls");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -95,30 +124,31 @@ void draw() {
 
             if (cell == ' ') {
                 SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
-                cout << ' ';
+                cout << " ";
             } 
             else if (cell == '#') {
                 SetConsoleTextAttribute(hConsole, 7); // To xam cho vien
-                cout << '#';
-            } 
+                cout << "#";
+            }
             else {
-                SetConsoleTextAttribute(hConsole, 15); // To mau trang cho block
-
-
-                cout << (char)219; 
+                // To mau trang cho block
+                SetConsoleTextAttribute(hConsole, 15);
+                cout << char(219); // Full block character (█)
             }
         }
         cout << '\n';
     }
-    SetConsoleTextAttribute(hConsole, 7);
+    SetConsoleTextAttribute(hConsole, 7); // Reset ve mau default
 }
 
 
-void removeLine(){
-     for (int i = H - 2; i >= 0; i--) {
+int removeLine(){
+    int removed = 0;
+
+    for (int i = H - 2; i > 0; i--) {
 
         bool full = true;
-        for (int j = 0; j < W; j++) {
+        for (int j = 1; j < W - 1; j++) {   // ❗ bỏ tường
             if (board[i][j] == ' ') {
                 full = false;
                 break;
@@ -126,21 +156,26 @@ void removeLine(){
         }
 
         if (full) {
+            removed++;
+
             for (int ii = i; ii > 0; ii--) {
-                for (int jj = 0; jj < W; jj++) {
+                for (int jj = 1; jj < W - 1; jj++) {
                     board[ii][jj] = board[ii - 1][jj];
                 }
             }
 
-            for (int jj = 0; jj < W; jj++)
+            for (int jj = 1; jj < W - 1; jj++)
                 board[0][jj] = ' ';
 
-            draw();
-            Sleep(100);
-            i++;  
+            VeManHinh();
+            Sleep(80);
+            i++;  // kiểm tra lại dòng này
         }
     }
+    return removed;
 }
+
+bool isGameOver = false;
 
 int main()
 {
@@ -157,19 +192,38 @@ int main()
             if (c == 'a' && canMove(-1,0)) x--;
             if (c == 'd' && canMove( 1,0)) x++;
             if (c == 'x' && canMove( 0,1)) y++;
+            if (c == 'w') rotateBlock();
             if (c == 'q') break;
         }
 
          // Khối tự rơi xuống
         if (canMove(0,1)) y++;
         else{
+            if (y <= 1) {
+                isGameOver = true;
+                break;
+            }
             block2Board();
-            removeLine();
-            x = 5; y = 0; b = rand()%7;
+            int lines = removeLine();
+            if (lines > 0) {
+                speed -= lines * 30;     // mỗi line nhanh hơn 30ms
+                if (speed < minSpeed)
+                    speed = minSpeed;
+        }
+
+        x = 5; 
+        y = 0; 
+        b = rand() % 7;
         }
         block2Board();
-        draw();
-        Sleep(400);
+        VeManHinh();
+        Sleep(speed);
+    }
+        if (isGameOver) {
+        system("cls");
+        cout << "\n\n    GAME OVER\n";
+        cout << "Nhan phim bat ky de thoat";
+        getch();
     }
     return 0;
 }
