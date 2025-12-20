@@ -114,31 +114,32 @@ void initBoard(){
 }
 
 
-void VeManHinh(){
-    system("cls");
+void VeManHinh() {
+    // Thay thế system("cls") để tối ưu tốc độ và giảm giật hình
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD cursorPosition = {0, 0};
+    SetConsoleCursorPosition(hConsole, cursorPosition);
 
-    for (int i = 0 ; i < H ; i++) {
-        for (int j = 0 ; j < W ; j++) {
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++) {
             char cell = board[i][j];
             
             if (cell == ' ') {
-                SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
-                cout << " ";
+                SetConsoleTextAttribute(hConsole, 7);
+                cout << ' ';
             } 
             else if (cell == '#') {
-                SetConsoleTextAttribute(hConsole, 7); // To xam cho vien
-                cout << "#";
-            }
+                SetConsoleTextAttribute(hConsole, 7);
+                cout << '#';
+            } 
             else {
-                // To mau trang cho block
                 SetConsoleTextAttribute(hConsole, 15);
-                cout << char(219); // Full block character (█)
+                cout << (char)219;
             }
         }
-        cout << endl;
+        cout << '\n';
     }
-    SetConsoleTextAttribute(hConsole, 7); // Reset ve mau default
+    SetConsoleTextAttribute(hConsole, 7);
 }
 
 
