@@ -60,7 +60,7 @@ char blocks[][4][4] ={
 bool canMove(int dx, int dy){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
-            if (blocks[b][i][j] != ' ') {   //xet cac o khong trong
+            if (currentBlock[i][j] != ' ') {   //xet cac o khong trong
                 int xt = x + j + dx;        //tinh toa do moi cua board
                 int yt = y + i + dy;        //tinh toa do moi cua board
                 if (xt < 1 || xt >= W-1 || yt >= H-1 ) return false;    //khong the di chuuyen
@@ -85,27 +85,27 @@ void rotateBlock() {
     char tmp[4][4];
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            tmp[i][j] = currentBlock[b][3 - j][i];
+            tmp[i][j] = currentBlock[3 - j][i];
 
     if (canRotate(tmp))
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
-                currentBlock[b][i][j] = tmp[i][j];
+                currentBlock[i][j] = tmp[i][j];
 }
 
-//Ve khoi 
+//Ve khoi
 void block2Board(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
-            if (currentBlock[b][i][j] != ' ')
-                board[y+i][x+j] = currentBlock[b][i][j];
+            if (currentBlock[i][j] != ' ')
+                board[y+i][x+j] = currentBlock[i][j];
 }
 
 
 void boardDelBlock(){
     for (int i = 0; i < 4; i++ )
         for (int j = 0; j < 4; j++ )
-            if (currentBlock[b][i][j] != ' ')
+            if (currentBlock[i][j] != ' ')
                 board[y+i][x+j] = ' ';
 }
 
@@ -125,7 +125,7 @@ void VeManHinh() {
     COORD cursorPosition = {0, 0};
     SetConsoleCursorPosition(hConsole, cursorPosition);
 
-    int blockColor = uiColors[b % 3]; 
+    int blockColor = uiColors[b % 3];
 
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++) {
@@ -134,11 +134,11 @@ void VeManHinh() {
             if (cell == ' ') {
                 SetConsoleTextAttribute(hConsole, 7);
                 cout << "  ";
-            } 
+            }
             else if (cell == '#') {
                 SetConsoleTextAttribute(hConsole, 7);
-                cout << "##"; 
-            } 
+                cout << "##";
+            }
             else {
                 // To mau trang cho block
                 SetConsoleTextAttribute(hConsole, blockColor);
@@ -216,7 +216,13 @@ bool isGameOver = false;
 int main()
 {
     srand(time(0));
-    (W - 4) / 2; y = 0; b = rand()%7;
+    x = (W - 4) / 2; y = 0; b = rand()%7;
+
+    // copy block ban dau vao currentBlock
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            currentBlock[i][j] = blocks[b][i][j];
+
     initBoard();
 
     while (1){
@@ -243,15 +249,20 @@ int main()
             int lines = removeLine();
             if (lines > 0) {
                 updateScore(lines);
-                
+
                 speed -= lines * 30;     // mỗi line nhanh hơn 30ms
                 if (speed < minSpeed)
                     speed = minSpeed;
-        }
+            }
 
-        (W - 4) / 2; 
-        y = 0; 
-        b = rand() % 7;
+            x = (W - 4) / 2;
+            y = 0;
+            b = rand() % 7;
+
+            // copy block moi vao currentBlock
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    currentBlock[i][j] = blocks[b][i][j];
         }
         block2Board();
         VeManHinh();
