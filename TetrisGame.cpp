@@ -12,6 +12,10 @@ int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
 
 char board[H][W] = {};
 
+int score = 0;
+int level = 1;
+int totalLines = 0;
+
 int x, y, b;
 char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
 char blocks[][4][4] ={
@@ -175,6 +179,21 @@ int removeLine(){
     return removed;
 }
 
+
+//hàm tính điểm
+void updateScore(int lines) {
+    if (lines == 1) score += 100 * level;
+    else if (lines == 2) score += 300 * level;
+    else if (lines == 3) score += 500 * level;
+    else if (lines >= 4) score += 800 * level;
+
+    totalLines += lines;
+
+    // Mỗi 5 dòng lên 1 level
+    level = totalLines / 5 + 1;
+}
+
+
 bool isGameOver = false;
 
 int main()
@@ -206,6 +225,8 @@ int main()
             block2Board();
             int lines = removeLine();
             if (lines > 0) {
+                updateScore(lines);
+                
                 speed -= lines * 30;     // mỗi line nhanh hơn 30ms
                 if (speed < minSpeed)
                     speed = minSpeed;
