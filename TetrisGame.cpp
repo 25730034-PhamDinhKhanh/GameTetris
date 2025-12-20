@@ -4,8 +4,8 @@
 #include <ctime>
 
 using namespace std;
-#define H 15
-#define W 20
+#define H 20
+#define W 25
 
 int speed = 400; //tốc độ ban đầu 
 int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
