@@ -216,7 +216,7 @@ bool isGameOver = false;
 int main()
 {
     srand(time(0));
-    x = 5; y = 0; b = rand()%7;
+    (W - 4) / 2; y = 0; b = rand()%7;
     initBoard();
 
     while (1){
@@ -249,7 +249,7 @@ int main()
                     speed = minSpeed;
         }
 
-        x = 5; 
+        (W - 4) / 2; 
         y = 0; 
         b = rand() % 7;
         }
