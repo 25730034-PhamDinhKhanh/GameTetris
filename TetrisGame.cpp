@@ -12,6 +12,10 @@ int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
 
 char board[H][W] = {};
 
+int score = 0; //biến cho điểm số
+int level = 1; //biến cho level
+int totalLines = 0;  //biến cho tổng lines
+
 int x, y, b;
 int uiColors[3] = {6, 4, 9 } ; //6: vang, 4: đỏ , 9: xanh da trời
 char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
@@ -115,9 +119,11 @@ void initBoard(){
 }
 
 
-void VeManHinh(){
-    system("cls");
+void VeManHinh() {
+    // Thay thế system("cls") để tối ưu tốc độ và giảm giật hình
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD cursorPosition = {0, 0};
+    SetConsoleCursorPosition(hConsole, cursorPosition);
 
     int blockColor = uiColors[b % 3]; 
 
@@ -126,22 +132,28 @@ void VeManHinh(){
             char cell = board[i][j];
 
             if (cell == ' ') {
-                SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
-                cout << " ";
+                SetConsoleTextAttribute(hConsole, 7);
+                cout << ' ';
             } 
             else if (cell == '#') {
-                SetConsoleTextAttribute(hConsole, 7); // To xam cho vien
-                cout << "#";
-            }
+                SetConsoleTextAttribute(hConsole, 7);
+                cout << '#';
+            } 
             else {
                 // To mau trang cho block
                 SetConsoleTextAttribute(hConsole, blockColor);
                 cout << char(219); // Full block character (█)
             }
         }
+
+        if (i == 2) cout << " SCORE: " << score;
+        if (i == 4) cout << " LEVEL: " << level;
+        if (i == 6) cout << " LINES: " << totalLines;
+
+            
         cout << '\n';
     }
-    SetConsoleTextAttribute(hConsole, 7); // Reset ve mau default
+    SetConsoleTextAttribute(hConsole, 7);
 }
 
 
@@ -178,6 +190,21 @@ int removeLine(){
     return removed;
 }
 
+
+//hàm tính điểm
+void updateScore(int lines) {
+    if (lines == 1) score += 100 * level;
+    else if (lines == 2) score += 300 * level;
+    else if (lines == 3) score += 500 * level;
+    else if (lines >= 4) score += 800 * level;
+
+    totalLines += lines;
+
+    // Mỗi 5 dòng lên 1 level
+    level = totalLines / 5 + 1;
+}
+
+
 bool isGameOver = false;
 
 int main()
@@ -209,6 +236,8 @@ int main()
             block2Board();
             int lines = removeLine();
             if (lines > 0) {
+                updateScore(lines);
+                
                 speed -= lines * 30;     // mỗi line nhanh hơn 30ms
                 if (speed < minSpeed)
                     speed = minSpeed;
