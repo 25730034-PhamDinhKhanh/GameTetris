@@ -85,25 +85,32 @@ void initBoard(){
 }
 
 
-void draw(){
+void draw() {
     system("cls");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    for (int i = 0 ; i < H ; i++) {
-        for (int j = 0 ; j < W ; j++) {
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++) {
             char cell = board[i][j];
-            
+
             if (cell == ' ') {
-                cout << "  ";
+                SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
+                cout << ' ';
             } 
             else if (cell == '#') {
-                cout << "##";
-            }
+                SetConsoleTextAttribute(hConsole, 7); // To xam cho vien
+                cout << '#';
+            } 
             else {
-                cout << cell << cell;
+                SetConsoleTextAttribute(hConsole, 15); // To mau trang cho block
+
+
+                cout << (char)219; 
             }
         }
-        cout << endl;
+        cout << '\n';
     }
+    SetConsoleTextAttribute(hConsole, 7);
 }
 
 
