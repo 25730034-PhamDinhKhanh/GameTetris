@@ -133,16 +133,16 @@ void VeManHinh() {
 
             if (cell == ' ') {
                 SetConsoleTextAttribute(hConsole, 7);
-                cout << ' ';
+                cout << "  ";
             } 
             else if (cell == '#') {
                 SetConsoleTextAttribute(hConsole, 7);
-                cout << '#';
+                cout << "##"; 
             } 
             else {
                 // To mau trang cho block
                 SetConsoleTextAttribute(hConsole, blockColor);
-                cout << char(219); // Full block character (█)
+                cout << char(219) << char(219); // Full block character (█)
             }
         }
 
@@ -150,7 +150,8 @@ void VeManHinh() {
         if (i == 4) cout << " LEVEL: " << level;
         if (i == 6) cout << " LINES: " << totalLines;
 
-            
+        cout << "                    "; //xóa phần dư của dòng cũ
+
         cout << '\n';
     }
     SetConsoleTextAttribute(hConsole, 7);
