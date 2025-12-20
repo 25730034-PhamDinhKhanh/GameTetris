@@ -141,6 +141,12 @@ void VeManHinh() {
                 cout << (char)219;
             }
         }
+
+        if (i == 2) cout << " SCORE: " << score;
+        if (i == 4) cout << " LEVEL: " << level;
+        if (i == 6) cout << " LINES: " << totalLines;
+
+            
         cout << '\n';
     }
     SetConsoleTextAttribute(hConsole, 7);
