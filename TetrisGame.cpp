@@ -146,9 +146,14 @@ void VeManHinh() {
             }
         }
 
-        if (i == 2) cout << " SCORE: " << score;
-        if (i == 4) cout << " LEVEL: " << level;
-        if (i == 6) cout << " LINES: " << totalLines;
+        if (i == 2) cout << "   SCORE: " << score;
+        if (i == 4) cout << "   LEVEL: " << level;
+        if (i == 6) cout << "   LINES: " << totalLines;
+        if (i == 8)  cout << "   A : Left";
+        if (i == 9)  cout << "   D : Right";
+        if (i == 10)  cout << "   W : Rotate";
+        if (i == 11)  cout << "   X : Down";
+        if (i == 12) cout << "   Q : Quit";
 
         cout << "                    "; //xóa phần dư của dòng cũ
 
