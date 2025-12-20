@@ -118,10 +118,10 @@ void VeManHinh(){
     system("cls");
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    for (int i = 0 ; i < H ; i++) {
-        for (int j = 0 ; j < W ; j++) {
+    for (int i = 0; i < H; i++) {
+        for (int j = 0; j < W; j++) {
             char cell = board[i][j];
-            
+
             if (cell == ' ') {
                 SetConsoleTextAttribute(hConsole, 7); // Set lai default color cho empty cells
                 cout << " ";
@@ -136,7 +136,7 @@ void VeManHinh(){
                 cout << char(219); // Full block character (█)
             }
         }
-        cout << endl;
+        cout << '\n';
     }
     SetConsoleTextAttribute(hConsole, 7); // Reset ve mau default
 }
