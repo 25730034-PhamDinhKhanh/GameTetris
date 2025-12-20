@@ -17,6 +17,7 @@ int level = 1; //biến cho level
 int totalLines = 0;  //biến cho tổng lines
 
 int x, y, b;
+int uiColors[3] = {6, 4, 9 } ; //6: vang, 4: đỏ , 9: xanh da trời
 char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
 char blocks[][4][4] ={
         // I-piece (vertical)
@@ -124,29 +125,38 @@ void VeManHinh() {
     COORD cursorPosition = {0, 0};
     SetConsoleCursorPosition(hConsole, cursorPosition);
 
+    int blockColor = uiColors[b % 3]; 
+
     for (int i = 0; i < H; i++) {
         for (int j = 0; j < W; j++) {
             char cell = board[i][j];
 
             if (cell == ' ') {
                 SetConsoleTextAttribute(hConsole, 7);
-                cout << ' ';
+                cout << "  ";
             } 
             else if (cell == '#') {
                 SetConsoleTextAttribute(hConsole, 7);
-                cout << '#';
+                cout << "##"; 
             } 
             else {
-                SetConsoleTextAttribute(hConsole, 15);
-                cout << (char)219;
+                // To mau trang cho block
+                SetConsoleTextAttribute(hConsole, blockColor);
+                cout << char(219) << char(219); // Full block character (█)
             }
         }
 
-        if (i == 2) cout << " SCORE: " << score;
-        if (i == 4) cout << " LEVEL: " << level;
-        if (i == 6) cout << " LINES: " << totalLines;
+        if (i == 2) cout << "   SCORE: " << score;
+        if (i == 4) cout << "   LEVEL: " << level;
+        if (i == 6) cout << "   LINES: " << totalLines;
+        if (i == 8)  cout << "   A : Left";
+        if (i == 9)  cout << "   D : Right";
+        if (i == 10)  cout << "   W : Rotate";
+        if (i == 11)  cout << "   X : Down";
+        if (i == 12) cout << "   Q : Quit";
 
-            
+        cout << "                    "; //xóa phần dư của dòng cũ
+
         cout << '\n';
     }
     SetConsoleTextAttribute(hConsole, 7);
