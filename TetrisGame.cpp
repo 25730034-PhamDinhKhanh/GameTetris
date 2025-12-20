@@ -12,9 +12,9 @@ int minSpeed = 80;  //tốc độ nhanh nhất (giới hạn)
 
 char board[H][W] = {};
 
-int score = 0;
-int level = 1;
-int totalLines = 0;
+int score = 0; //biến cho điểm số
+int level = 1; //biến cho level
+int totalLines = 0;  //biến cho tổng lines
 
 int x, y, b;
 char currentBlock[4][4];  // Luu trang thai hien tai cua khoi
